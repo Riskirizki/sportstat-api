@@ -20,7 +20,11 @@ You can interact with the SportStat-API through the following endpoints:
 | `/sports/:id` | DELETE | Delete sport by id |
 | `/sports/:id` | PUT    | Update sport by id |
 
-### Getting Started
+## Database Design Schema
+
+![ERD](./assets/sportstat-erd.svg)
+
+## Getting Started
 
 To install dependencies and run the project in development mode, follow these steps:
 
