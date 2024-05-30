@@ -11,14 +11,15 @@ You can interact with the SportStat-API through the following endpoints:
 
 ### Endpoint Descriptions
 
-| Endpoint      | HTTP   | Description        |
-| ------------- | ------ | ------------------ |
-| `/sports`     | GET    | Get all sports     |
-| `/sports/:id` | GET    | Get sport by id    |
-| `/sports`     | POST   | Add new sport      |
-| `/sports`     | DELETE | Delete all sports  |
-| `/sports/:id` | DELETE | Delete sport by id |
-| `/sports/:id` | PUT    | Update sport by id |
+| Endpoint       | HTTP   | Description              |
+| -------------- | ------ | ------------------------ |
+| `/sports`      | GET    | Get all sports           |
+| `/sports/:id`  | GET    | Get sport by id          |
+| `/sports`      | POST   | Add new sport            |
+| `/sports/seed` | POST   | Seed initial sports data |
+| `/sports`      | DELETE | Delete all sports        |
+| `/sports/:id`  | DELETE | Delete sport by id       |
+| `/sports/:id`  | PUT    | Update sport by id       |
 
 ## Database Design Schema
 
