@@ -83,14 +83,24 @@ app.put("/sports/:id", async (c) => {
     numberOfPlayers: body.numberOfPlayers || sport.numberOfPlayers,
     playingSurface: body.playingSurface || sport.playingSurface,
     duration: body.duration || sport.duration,
-    id: id,
   };
 
-  sports = sports.map((s) => (s.id === id ? updatedSport : s));
+  const updatedSports = sports.map((sport) => {
+    if (sport.id === id) {
+      return updatedSport;
+    } else {
+      return sport;
+    }
+  });
+
+  sports = updatedSports;
 
   return c.json({
     message: `Updated sport with id ${id}`,
+    sport: updatedSport,
   });
 });
+
+console.log("SportStat API is running");
 
 export default app;
