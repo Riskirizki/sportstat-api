@@ -11,6 +11,7 @@ app.post("/sports/seed", async (c) => {
   } catch (error) {
     console.error("Error seeding sports:", error);
     c.status(500);
+
     return c.json({ message: "Internal server error" });
   }
 });
@@ -26,22 +27,36 @@ app.get("/sports", async (c) => {
   } catch (error) {
     console.error("Error fetching sports:", error);
     c.status(500);
+
     return c.json({ message: "Internal server error" });
   }
 });
 
 app.get("/sports/:id", async (c) => {
   const id = Number(c.req.param("id"));
+
   try {
-    const sport = await prisma.sport.findUnique({ where: { id } });
+    const sport = await prisma.sport.findUnique({
+      where: { id },
+      include: {
+        teams: {
+          include: {
+            coach: true,
+          },
+        },
+      },
+    });
+
     if (!sport) {
       c.status(404);
       return c.json({ message: "Sport not found" });
     }
+
     return c.json(sport);
   } catch (error) {
     console.error(`Error fetching sport with ID ${id}:`, error);
     c.status(500);
+
     return c.json({ message: "Internal server error" });
   }
 });
@@ -50,22 +65,24 @@ app.post("/sports", async (c) => {
   const body = await c.req.json();
 
   try {
-    const sportData = {
-      name: String(body.name),
-      description: String(body.description),
-      rules: String(body.rules),
-      equipment: String(body.equipment),
-      venue: String(body.venue),
-      numberOfPlayers: String(body.numberOfPlayers),
-      playingSurface: String(body.playingSurface),
-      duration: new Date(),
-    };
+    const sport = await prisma.sport.create({
+      data: {
+        name: body.name,
+        description: body.descriptio,
+        rules: body.rules,
+        equipment: body.equipment,
+        venue: body.venue,
+        numberOfPlayers: body.numberOfPlayers,
+        playingSurface: body.playingSurface,
+        duration: new Date(),
+      },
+    });
 
-    const sport = await prisma.sport.create({ data: sportData });
     return c.json({ sport });
   } catch (error) {
     console.error("Error creating sport:", error);
     c.status(400);
+
     return c.json({ message: "Invalid request body" });
   }
 });
@@ -80,12 +97,14 @@ app.delete("/sports", async (c) => {
   } catch (error) {
     console.error("Error deleting sports:", error);
     c.status(500);
+
     return c.json({ message: "Internal server error" });
   }
 });
 
 app.delete("/sports/:id", async (c) => {
   const id = Number(c.req.param("id"));
+
   try {
     const deletedSport = await prisma.sport.delete({ where: { id } });
     return c.json({
@@ -95,6 +114,7 @@ app.delete("/sports/:id", async (c) => {
   } catch (error) {
     console.error(`Error deleting sport with ID ${id}:`, error);
     c.status(500);
+
     return c.json({ message: "Internal server error" });
   }
 });
@@ -105,13 +125,13 @@ app.put("/sports/:id", async (c) => {
 
   try {
     const sportData = {
-      name: String(body.name),
-      description: String(body.description),
-      rules: String(body.rules),
-      equipment: String(body.equipment),
-      venue: String(body.venue),
-      numberOfPlayers: String(body.numberOfPlayers),
-      playingSurface: String(body.playingSurface),
+      name: body.name,
+      description: body.description,
+      rules: body.rules,
+      equipment: body.equipment,
+      venue: body.venue,
+      numberOfPlayers: body.numberOfPlayers,
+      playingSurface: body.playingSurface,
       duration: new Date(),
     };
 
@@ -126,6 +146,7 @@ app.put("/sports/:id", async (c) => {
   } catch (error) {
     console.error(`Error updating sport with ID ${id}:`, error);
     c.status(400);
+
     return c.json({ message: "Invalid request body" });
   }
 });
