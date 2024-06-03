@@ -7,6 +7,7 @@ const app = new Hono();
 app.post("/sports/seed", async (c) => {
   try {
     const sports = await prisma.sport.createMany({ data: dataSports });
+
     return c.json(sports);
   } catch (error) {
     console.error("Error seeding sports:", error);
@@ -17,12 +18,13 @@ app.post("/sports/seed", async (c) => {
 });
 
 app.get("/", (c) => {
-  return c.json({ message: "Hello world" });
+  return c.json({ message: "Welcome to SportStat API" });
 });
 
 app.get("/sports", async (c) => {
   try {
     const sports = await prisma.sport.findMany();
+
     return c.json(sports);
   } catch (error) {
     console.error("Error fetching sports:", error);
@@ -49,6 +51,7 @@ app.get("/sports/:id", async (c) => {
 
     if (!sport) {
       c.status(404);
+
       return c.json({ message: "Sport not found" });
     }
 
@@ -68,7 +71,7 @@ app.post("/sports", async (c) => {
     const sport = await prisma.sport.create({
       data: {
         name: body.name,
-        description: body.descriptio,
+        description: body.description,
         rules: body.rules,
         equipment: body.equipment,
         venue: body.venue,
@@ -90,6 +93,7 @@ app.post("/sports", async (c) => {
 app.delete("/sports", async (c) => {
   try {
     const result = await prisma.sport.deleteMany();
+
     return c.json({
       message: "All sports data have been removed",
       result,
@@ -107,6 +111,7 @@ app.delete("/sports/:id", async (c) => {
 
   try {
     const deletedSport = await prisma.sport.delete({ where: { id } });
+
     return c.json({
       message: `Deleted sport with ID ${id}`,
       deletedSport,
@@ -124,21 +129,20 @@ app.put("/sports/:id", async (c) => {
   const body = await c.req.json();
 
   try {
-    const sportData = {
-      name: body.name,
-      description: body.description,
-      rules: body.rules,
-      equipment: body.equipment,
-      venue: body.venue,
-      numberOfPlayers: body.numberOfPlayers,
-      playingSurface: body.playingSurface,
-      duration: new Date(),
-    };
-
     const updatedSport = await prisma.sport.update({
       where: { id },
-      data: sportData,
+      data: {
+        name: body.name,
+        description: body.description,
+        rules: body.rules,
+        equipment: body.equipment,
+        venue: body.venue,
+        numberOfPlayers: body.numberOfPlayers,
+        playingSurface: body.playingSurface,
+        duration: new Date(),
+      },
     });
+
     return c.json({
       message: `Updated sport with ID ${id}`,
       updatedSport,

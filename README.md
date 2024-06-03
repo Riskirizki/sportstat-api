@@ -32,12 +32,12 @@ To install dependencies and run the project in development mode, follow these st
 1. Install dependencies:
 
    ```sh
-   npm install
+   bun install
    ```
 
 2. Start the server in development mode:
    ```sh
-   npm run dev
+   bun run dev
    ```
 
 After running the project, you can access it at [http://localhost:3000](http://localhost:3000).
