@@ -6,7 +6,7 @@ This README file provides information about the SportStat-API project.
 
 You can interact with the SportStat-API through the following endpoints:
 
-- **Production:** [https://sportstat-api.example.com](https://sportstat-api.example.com)
+- **Production:** [https://sportstat-api.onrender.com/sports](https://sportstat-api.onrender.com/sports)
 - **Local:** [http://localhost:3000](http://localhost:3000)
 
 ### Endpoint Descriptions
